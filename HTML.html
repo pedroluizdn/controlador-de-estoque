@@ -1,66 +1,12 @@
-﻿<!doctype html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>queue demo</title>
-  <style>	
-	
-	.lightbox {
-	    position: absolute;
-		left: 25%;
-		top: 25%;
-		width: 50%;
-		padding: 15px;
-		border: 8px ridge blue;
-		background: lightcyan;	
-		border-radius: 10px;
-	}
-	
-	.lightbox label {
-	    font-weight: bold;
-	}
-	
-	.alertavalidacao{
-	    color: red;
-		margin-left: 4px;
-		background: rgb(256,240,240);
-		padding: 2px;
-		font-weight: bold;
-		font-family: verdana;
-	}
-	
-	#tabela_de_produtos {
-		width: 600px;
-	}
-	
-	#tabela_de_produtos td {
-	    width: 150px;
-	}
-	
-	#tabela_de_produtos table, #tabela_de_produtos table tr,
-    #tabela_de_produtos table td {
-	    border-collapse: collapse;
-		border: 2px ridge black;
-		padding: 5px;
-		text-align: center;
-	}
-	
-	#add_product {
-	    margin-bottom: 6px;
-	}
-	
-	#modifytable {
-	    margin: 10px 0;
-	}
-	
-	input[type=button] {
-	    margin: 4px 0;
-	}
-	
-  </style>
+  <title>Controlador de Estoque</title>
+  <link rel="stylesheet" type="text/css" href="css/main_style.css" />
   <script type="text/javascript" src="main_script.js"></script>  
 </head>
-<body style="width: 100%;">   
+<body>   
   <div id="content">
     <button id="modifytable" type="button">Gerenciar formato da tabela</button><br />
     <input id="add_product" type="button" value="Adicionar produto" />
