@@ -1,0 +1,112 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>queue demo</title>
+  <style>	
+	
+	.lightbox {
+	    position: absolute;
+		left: 25%;
+		top: 25%;
+		width: 50%;
+		padding: 15px;
+		border: 8px ridge blue;
+		background: lightcyan;	
+		border-radius: 10px;
+	}
+	
+	.lightbox label {
+	    font-weight: bold;
+	}
+	
+	.alertavalidacao{
+	    color: red;
+		margin-left: 4px;
+		background: rgb(256,240,240);
+		padding: 2px;
+		font-weight: bold;
+		font-family: verdana;
+	}
+	
+	#tabela_de_produtos {
+		width: 600px;
+	}
+	
+	#tabela_de_produtos td {
+	    width: 150px;
+	}
+	
+	#tabela_de_produtos table, #tabela_de_produtos table tr,
+    #tabela_de_produtos table td {
+	    border-collapse: collapse;
+		border: 2px ridge black;
+		padding: 5px;
+		text-align: center;
+	}
+	
+	#add_product {
+	    margin-bottom: 6px;
+	}
+	
+	#modifytable {
+	    margin: 10px 0;
+	}
+	
+	input[type=button] {
+	    margin: 4px 0;
+	}
+	
+  </style>
+  <script type="text/javascript" src="main_script.js"></script>  
+</head>
+<body style="width: 100%;">   
+  <div id="content">
+    <button id="modifytable" type="button">Gerenciar formato da tabela</button><br />
+    <input id="add_product" type="button" value="Adicionar produto" />
+    <input id="remove_product" type="button" value="Remover produto" />
+  
+    <div id="tabela_de_produtos">
+        <table>
+	        <thead>
+		        <tr>
+			        <td>Nome do produto</td>
+			        <td>N° de série</td>
+			        <td>Unidades</td>
+			        <td>Preço</td>
+			    </tr>
+		    </thead>
+	    </table>
+    </div>
+  </div>
+  <div id="form_products" style="display: none;">
+      <h1>Insira as informações do produto:</h1></label>
+      <label>Nome do Produto:<br /> <input class="infos" type="text"/></label>
+	  <span class="alertavalidacao" style="display: none;">Você precisa preencher todos os campos!</span>
+	  <br />
+      <label>N° de Série:<br /> <input class="infos" type="text"/></label>
+	  <span class="alertavalidacao" style="display: none;">Utilize apenas números!</span>
+	  <br />
+      <label>Unidades:<br /> <input class="infos" type="text"/></label>
+	  <span class="alertavalidacao" style="display: none;">Utilize apenas números!</span>
+	  <br />
+      <label>Preço:<br /> <input class="infos" type="text"/></label>
+	  <span class="alertavalidacao" style="display: none;">
+	      Especifique centavos com um ponto (.) ao invés de vírgula (,). 
+		  Os centavos são obrigatórios!
+      </span>
+	  <br /><br />
+      <label><input id="buttonaddproduct" type="button" value="Adicionar no Estoque" /></label>
+      <label><input id="buttoncancelsend" type="button" value="Cancelar" /></label>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
