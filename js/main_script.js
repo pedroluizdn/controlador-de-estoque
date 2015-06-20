@@ -13,10 +13,10 @@ window.onload = function(){
 	}
 	
 	if(!table_columns){
-	    var table_columns = [];
+	    var table_columns = ["nome", "preço"];
 	}
 	if(!table_products){
-	    var table_products = [];
+	    var table_products = [["porta", 120], ["fogão", 320]];
 	}
 
 	// Essa função cria a tabela com os dados que o programa já
@@ -24,11 +24,16 @@ window.onload = function(){
 	function generateTable(){
 	    
 		// Recupera o elemento em que as "THs" serão embutidas.
+		// Em seguida, esvazia esse elemento, para criar uma nova tabela
+		// se ela já existe.
 		var tr_head = document.getElementById("cabecalho_da_tabela")
+		tr_head.innerHTML = "";
 		
 		// Recupera o elemento "tbody" para inserir os elementos
-		// "tr"s que serão criados.
+		// "tr"s que serão criados.Em seguida, esvazia esse 
+		// elemento, para criar uma nova tabela se ela já existe.
 		var table_body = document.getElementById("corpo_da_tabela");
+		table_body.innerHTML = "";
 		
 		// O "_head" no fim, significa que essas variáveis
 		// dizem à respeito do cabeçalho da tabela.
