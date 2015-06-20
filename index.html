@@ -17,37 +17,35 @@
         <table>
 	        <thead id="cabecalho_da_tabela">
 		        <tr>
-				    <td>Teste</td>
 			        <!-- Este pedaço do html reserva o 
 					local para as "TH"s que serão criadas -->
 			    </tr>
 		    </thead>
 			<tbody id="corpo_da_tabela">
 			    <!-- Este pedaço também reserva o local para o corpo
-			    da tabela que será criado através do script-->
+			    da tabela que será criado através do script -->
 			</tbody>
 	    </table>
     </div>
   </div>
-  <div id="form_products" style="display: none;">
-      <h1>Insira as informações do produto:</h1></label>
-      <label>Nome do Produto:<br /> <input class="infos" type="text"/></label>
-	  <span class="alertavalidacao" style="display: none;">Você precisa preencher todos os campos!</span>
-	  <br />
-      <label>N° de Série:<br /> <input class="infos" type="text"/></label>
-	  <span class="alertavalidacao" style="display: none;">Utilize apenas números!</span>
-	  <br />
-      <label>Unidades:<br /> <input class="infos" type="text"/></label>
-	  <span class="alertavalidacao" style="display: none;">Utilize apenas números!</span>
-	  <br />
-      <label>Preço:<br /> <input class="infos" type="text"/></label>
-	  <span class="alertavalidacao" style="display: none;">
-	      Especifique centavos com um ponto (.) ao invés de vírgula (,). 
-		  Os centavos são obrigatórios!
-      </span>
-	  <br /><br />
-      <label><input id="buttonaddproduct" type="button" value="Adicionar no Estoque" /></label>
-      <label><input id="buttoncancelsend" type="button" value="Cancelar" /></label>
+  <!-- A div abaixo é criada para que nós possamos "hospedar" os pedaços
+  de HTML necessários na hora de desenvolver os "lightbox"s  -->
+  <div id="host_lightbox" style="display: none;">
+      <!-- Este é o primeiro lightbox. Ele serve para o click no botão
+      com o id "modifytable" -->
+      <div id="_lightbox1">
+	      <h1>Selecione a ação desejada.</h1>
+		  <input type="button" value="Adicionar Colunas" />
+		  <input type="button" value="Remover Colunas" />
+		  <input type="button" value="Editar Colunas" />
+		  <input type="button" value="Cancelar Gerenciamento" />
+	  </div>
+	  <div id="_lightbox1_1">
+	      <h1>Dê um nome para a nova coluna:</h1>
+		  <input type="text" value="" /><br /><br />  
+		  <input type="button" value="Adicionar Coluna" />		  
+		  <input type="button" value="Cancelar Operação" />		  
+	  </div>
   </div>
 </body>
 </html>

@@ -1,5 +1,24 @@
 ﻿"use strict"; // Usa o modo strict do ECMAScript 5.
 
+// Define uma função de utilidade que será usada neste programa.
+// O objetivo dela é esvaziar um elemento, ou seja, retirar todos
+// os "child nodes" de dentro dele.
+function emptyElement(elem){
+    
+	var len = elem.children.length;
+	
+	// Itera através dos filhos desse elemento, deletando cada um
+	// deles.
+	var child;
+	for(var a=0; a < len; a++){
+	    
+		child = elem.children[a];
+	    elem.removeChild(child);
+		
+	}
+	
+}
+
 window.onload = function(){
 
 	// Quando o programa é iniciado, recupera os antigos valores, ou 
@@ -13,10 +32,10 @@ window.onload = function(){
 	}
 	
 	if(!table_columns){
-	    var table_columns = ["nome", "preço"];
+	    var table_columns = [];
 	}
 	if(!table_products){
-	    var table_products = [["porta", 120], ["fogão", 320]];
+	    var table_products = [];
 	}
 
 	// Essa função cria a tabela com os dados que o programa já
@@ -76,6 +95,7 @@ window.onload = function(){
 				    td_body = "";
 				}
 				
+				// Cria um elemento "td" e insere o dado do produto nele.
 				tdElem_body = document.createElement("td");
 				tdElem_body.innerHTML = td_body;
                 
@@ -92,9 +112,74 @@ window.onload = function(){
 		
 	}
 	
-	generateTable();
+	// Define a função que serve como gerenciamento da tabela.
+	function manageTable(){
+	    
+		// Pra começar, nós criamos o lightbox e 
+		// damos uma classe para o estilo.
+		var lightbox = document.createElement("div");
+		lightbox.classList.add("lightbox");
+		
+		// Aqui, nós recuperamos o elemento em que está "hospedado"
+		// todos os conteúdos necessários para o lightbox.
+		var host_lightbox = document.getElementById("host_lightbox");
+		
+		// Em seguida, nós aplicamos os elementos necessários para
+		// o lightbox.
+		var _lightbox1 = document.getElementById("_lightbox1")
+		lightbox.appendChild(_lightbox1);
+		
+		// Então, nós apenas anexamos no documento o lightbox com 
+		// o seu conteúdo.
+		document.body.appendChild(lightbox);
+		
+		// Recupera os botões das opções de gerenciamento para
+		// anexar os manipuladores mais tarde.
+		var buttonsForManagement = _lightbox1.getElementsByTagName("input");
+		
+		// A partir de agora, teremos 4 funções que dão o funcionamento
+		// de cada botão do lighbox com o id "_lightbox1". Três deles
+		// apenas trocam o conteúdo do lightbox, enquanto o último
+		// cancela as operações de gerenciamento da tabela.
+		
+		// A primeira função será o manipulador para o evento "click"
+		// do botão "Adicionar Colunas". Ela troca o conteúdo do lightbox
+		// fornecendo as novas opções de gerenciamento da tabela.
+		function addColumns(){
+		    
+			// Recupera o conteúdo que será colocado no lightbox.
+			var contentLightbox = document.getElementById("_lightbox1_1");
+			
+			host_lightbox.appendChild(_lightbox1);
+			
+			// Então, insere esse conteúdo no lightbox.
+			lightbox.appendChild(contentLightbox);
+			
+		}
+		
+		// Depois de definida, nós anexamos essa função 
+		// ao botão correspondente.
+		if(buttonsForManagement[0].addEventListener){
+		    buttonsForManagement[0].addEventListener("click", addColumns, false);
+	    }
+		else{
+		    buttonsForManagement[0].attachEvent("onclick", addColumns);
+		}
+		
+	}
 	
-	// Quando o programa é finalizado, salva os dados
+	// Em seguida, anexa manipuladores ao evento "click", do 
+	// elemento button, "gerenciar formato da tabela".
+	var manageTableButton = document.getElementById("modifytable");
+	
+	if(manageTableButton.addEventListener){
+	    manageTableButton.addEventListener("click", manageTable, false);
+	}
+	else{
+	    manageTableButton.attachEvent("onclick", manageTable);
+	}
+
+    // Quando o programa é finalizado, salva os dados
 	// fornecidos ao programa durante o uso.
 	window.beforeunload = function(){
 	    window.localStorage.table_columns = JSON.stringify(table_columns);
