@@ -20,7 +20,7 @@ function emptyElement(elem){
 }
 
 window.onload = function(){
-
+	
 	// Quando o programa é iniciado, recupera os antigos valores, ou 
 	// então apenas inicializa o array.
 	var ls = window.localStorage;
@@ -147,23 +147,129 @@ window.onload = function(){
 		// fornecendo as novas opções de gerenciamento da tabela.
 		function addColumns(){
 		    
-			// Recupera o conteúdo que será colocado no lightbox.
-			var contentLightbox = document.getElementById("_lightbox1_1");
+			// Nós desanexamos os manipuladores de evento dos antigos 
+            // botões.
+            _removeHandlers();
+			
+			// Recupera o conteúdo que será colocado no lightbox. 
+			var _lightbox1_1 = document.getElementById("_lightbox1_1");
 			
 			host_lightbox.appendChild(_lightbox1);
 			
 			// Então, insere esse conteúdo no lightbox.
-			lightbox.appendChild(contentLightbox);
+			lightbox.appendChild(_lightbox1_1);
+			
+			// Define a função que processará as informações inseridas
+            // e cria a novas coluna com o nome fornecido. O "2" no fim
+			// do nome da função serve para evitar confusões com a cadeia
+			// de escopo, já que existe uma função externa chamada "addColumns".
+            function addColumns2(){
+			    
+				
+				
+			}
+			
+			// Define a função que cancelará o gerenciamento da tabela,
+			// fechando o lightbox e devolvendo o conteúdo à nossa
+			// área de hospedagem no html. Não confunda essa função,
+			// com a da cadeia de escopo que já existe com o mesmo nome.
+			// Lembre-se: essa é uma função que sobrepõe a superior na
+			// cadeia!!!
+			function cancelManagement(){
+	          
+			    
+			  
+			}
+			
+			// Agora nós anexamos os manipuladores ao evento "click" de
+			// cada elemento input no lightbox. Lembrando que nós iniciamos
+			// no índice 1, pois o índice 0 é um elemento input type="text".
+			var _buttons = _lightbox1_1.getElementsByTagName("input");
+			if(_buttons[1].addEventListener){
+			    _buttons[1].addEventListener("click", addColumns2, false);
+			    _buttons[2].addEventListener("click", cancelManagement, false);
+			}
+			else{
+			    _buttons[1].attachEvent("onclick", addColumns2);
+			    _buttons[2].attachEvent("onclick", cancelManagement);
+			}
+			
+			// Aqui, nós definimos uma função de utilidade para facilitar o 
+			// trabalho nas funções definidas acima. Ela serve para desanexar
+			// os manipuladores de eventos aos botões do conteúdo que será 
+			// colocado de volta na área de hospedagem.
 			
 		}
 		
-		// Depois de definida, nós anexamos essa função 
-		// ao botão correspondente.
+		// A segunda função será o manipulador para o evento "click"
+		// do botão "Remover Colunas". Ela troca o conteúdo do lightbox
+		// fornecendo as novas opções de gerenciamento da tabela.
+		function removeColumns(){
+            
+			// Nós desanexamos os manipuladores de evento dos antigos 
+            // botões.
+            _removeHandlers();
+			
+        }		
+		
+		// A terceira função será o manipulador para o evento "click"
+		// do botão "Editar Colunas". Ela troca o conteúdo do lightbox
+		// fornecendo as novas opções de gerenciamento da tabela.
+		function editColumns(){
+		    
+			// Nós desanexamos os manipuladores de evento dos antigos 
+            // botões.
+            _removeHandlers();
+			
+		}
+		
+		// A quarta função será o manipulador para o evento "click"
+		// do botão "Cancelar Gerenciamento". Ela simplesmente apaga 
+		// o lightbox, devolvendo o conteúdo dele à área de hospedagem
+        // (div com o id "host_lightbox").		
+		function cancelManagement(){
+		
+		    // Nós desanexamos os manipuladores de evento dos antigos 
+            // botões.
+            _removeHandlers();
+			
+		}
+		
+		// Depois de definidas, nós anexamos essas funções 
+		// aos botões correspondentes.
 		if(buttonsForManagement[0].addEventListener){
 		    buttonsForManagement[0].addEventListener("click", addColumns, false);
+		    buttonsForManagement[1].addEventListener("click", removeColumns, false);
+		    buttonsForManagement[2].addEventListener("click", editColumns, false);
+		    buttonsForManagement[3].addEventListener("click", cancelManagement, false);
 	    }
 		else{
 		    buttonsForManagement[0].attachEvent("onclick", addColumns);
+		    buttonsForManagement[0].attachEvent("onclick", removeColumns);
+		    buttonsForManagement[0].attachEvent("onclick", editColumns);
+		    buttonsForManagement[0].attachEvent("onclick", cancelManagement);
+		}
+		
+		// Aqui, nós definimos uma pequena função de utilidade para
+		// diminuir o trabalho nas funções anexadas à cada manipulador
+		// desses acima. Ela serve para desanexar os manipuladores
+		// de eventos dos elementos inputs quando o conteúdo do 
+		// lightbox é trocado.
+		function _removeHandlers(){
+		    
+			if(buttonsForManagement[0].removeEventListener){
+		        buttonsForManagement[0].removeEventListener("click", addColumns, false);
+		        buttonsForManagement[1].removeEventListener("click", removeColumns, false);
+		        buttonsForManagement[2].removeEventListener("click", editColumns, false);
+		        buttonsForManagement[3].removeEventListener("click", cancelManagement, false);
+	        }
+		    else{
+		        buttonsForManagement[0].detachEvent("onclick", addColumns);
+		        buttonsForManagement[0].detachEvent("onclick", removeColumns);
+		        buttonsForManagement[0].detachEvent("onclick", editColumns);
+		        buttonsForManagement[0].detachEvent("onclick", cancelManagement);
+		}
+			
 		}
 		
 	}
