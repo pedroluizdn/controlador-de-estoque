@@ -117,8 +117,8 @@ window.onload = function(){
 	    
 		// Pra começar, nós criamos o lightbox e 
 		// damos uma classe para o estilo.
-		var lightbox = document.createElement("div");
-		lightbox.classList.add("lightbox");
+		var lightbox = document.getElementById("main_lightbox");
+		lightbox.style.display = "block";
 		
 		// Aqui, nós recuperamos o elemento em que está "hospedado"
 		// todos os conteúdos necessários para o lightbox.
@@ -126,7 +126,7 @@ window.onload = function(){
 		
 		// Em seguida, nós aplicamos os elementos necessários para
 		// o lightbox.
-		var _lightbox1 = document.getElementById("_lightbox1")
+		var _lightbox1 = document.getElementById("_lightbox1");
 		lightbox.appendChild(_lightbox1);
 		
 		// Então, nós apenas anexamos no documento o lightbox com 
@@ -165,7 +165,51 @@ window.onload = function(){
 			// de escopo, já que existe uma função externa chamada "addColumns".
             function addColumns2(){
 			    
+				// Essa variável é criada fora da função, antes de anexarmos
+				// essa função como manipuladora de evento do 1 elemento input 
+				// do _lightbox1_1;
+				var newColumn = _buttons[0].value.trim();
 				
+				// Define uma função para a verificar se a string já não
+				// existe em algum elemento do array.
+				function _verifyArray(newValue){
+				    
+					for(var a=0; a < table_columns.length; a++){
+					    
+						if(table_columns[a] == newValue){
+						    return true;
+						}
+						
+					}
+					
+					// Caso esse valor não exista no array, retorna o valor "false".
+					return false;
+					
+				}
+				
+				// Aqui, nós fazemos algumas verificações no valor de newColumn
+				// para saber se ele é válido e se não é um valor repetido.				
+				if(!newColumn || _verifyArray(newColumn)){
+				    return;
+				    
+					// #######################################
+					// Agora preciso criar uma forma de avisar 
+					// o usuário de que a inserção está errada
+					// #######################################
+					
+				}
+				
+				// Adiciona o nome da nova coluna no array "table_columns".
+				// Em seguida, invoca a função "generateTable".
+				table_columns.push(newColumn);
+				generateTable();
+			    
+				// Remove os manipuladores de evento.
+								
+				// E então fecha o lightbox e devolve o conteúdo à
+				// área de hopedagem.
+				host_lightbox.appendChild(_lightbox1_1);
+				lightbox.style.display = "none";
 				
 			}
 			
@@ -177,7 +221,10 @@ window.onload = function(){
 			// cadeia!!!
 			function cancelManagement(){
 	          
-			    
+			    // E então fecha o lightbox e devolve o conteúdo à
+				// área de hopedagem.
+				host_lightbox.appendChild(_lightbox1_1);
+				lightbox.style.display = "none";
 			  
 			}
 			
@@ -198,6 +245,19 @@ window.onload = function(){
 			// trabalho nas funções definidas acima. Ela serve para desanexar
 			// os manipuladores de eventos aos botões do conteúdo que será 
 			// colocado de volta na área de hospedagem.
+			function _removeHandlers2(){
+			    
+				var _buttons = _lightbox1_1.getElementsByTagName("input");
+				if(_buttons[1].removeEventListener){
+			        _buttons[1].removeEventListener("click", addColumns2, false);
+			        _buttons[2].removeEventListener("click", cancelManagement, false);
+			    }
+			    else{
+			        _buttons[1].detachEvent("onclick", addColumns2);
+			        _buttons[2].detachEvent("onclick", cancelManagement);
+			    }
+				
+			}
 			
 		}
 		
