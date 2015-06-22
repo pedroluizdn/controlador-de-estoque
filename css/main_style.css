@@ -13,13 +13,13 @@
 .lightbox label {
     font-weight: bold;
 }
-	
-.alertavalidacao{
+
+.alertavalidacao{ /*Este estilo serve para o aviso sobre inserções inválidas*/
     color: red;
 	margin-left: 4px;
 	background: rgb(256,240,240);
 	padding: 2px;
-	font-weight: bold;
+	font-size: 10px;
 	font-family: verdana;
 }
 	

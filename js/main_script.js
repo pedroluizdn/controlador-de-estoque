@@ -24,10 +24,10 @@ window.onload = function(){
 	// Quando o programa é iniciado, recupera os antigos valores, ou 
 	// então apenas inicializa o array.
 	var ls = window.localStorage;
-	if(ls.table_columns){
+	if(ls && ls.table_columns){
 	    var table_columns = JSON.parse(ls.table_columns);
 	}
-	if(ls.table_products){
+	if(ls && ls.table_products){
 	    var table_products = JSON.parse(ls.table_products);
 	}
 	
@@ -167,7 +167,8 @@ window.onload = function(){
 			    
 				// Essa variável é criada fora da função, antes de anexarmos
 				// essa função como manipuladora de evento do 1 elemento input 
-				// do _lightbox1_1;
+				// do _lightbox1_1. Também, apesar desse array se chamar 
+				// _buttons, ele guarda o elemento input type="text".
 				var newColumn = _buttons[0].value.trim();
 				
 				// Define uma função para a verificar se a string já não
@@ -187,17 +188,25 @@ window.onload = function(){
 					
 				}
 				
+				// Elemento span que avisa o usuário sobre a inserção invélida.
+				var infoElem = document.getElementById("alert1");
+				
 				// Aqui, nós fazemos algumas verificações no valor de newColumn
-				// para saber se ele é válido e se não é um valor repetido.				
+				// para saber se ele é válido e se não é um valor repetido.			
 				if(!newColumn || _verifyArray(newColumn)){
-				    return;
 				    
-					// #######################################
-					// Agora preciso criar uma forma de avisar 
-					// o usuário de que a inserção está errada
-					// #######################################
+					// Se houver algo errado no valor de newColumn, avisa o
+					// usuário através de um elemento "<span>" com a informação
+					// de que há algo errado na inserção.
+					infoElem.style.visibility = "visible";
 					
+					return;
+				 					
 				}
+				
+				// Caso não tenha erros na validação, nós escondemos o 
+				// elemento "span".
+				infoElem.style.visibility = "hidden";
 				
 				// Adiciona o nome da nova coluna no array "table_columns".
 				// Em seguida, invoca a função "generateTable".
@@ -205,7 +214,11 @@ window.onload = function(){
 				generateTable();
 			    
 				// Remove os manipuladores de evento.
-								
+				_removeHandlers2();
+				
+				// Limpa o input.
+				_buttons[0].value = "";
+				
 				// E então fecha o lightbox e devolve o conteúdo à
 				// área de hopedagem.
 				host_lightbox.appendChild(_lightbox1_1);
@@ -220,7 +233,13 @@ window.onload = function(){
 			// Lembre-se: essa é uma função que sobrepõe a superior na
 			// cadeia!!!
 			function cancelManagement(){
-	          
+	            
+				// Elemento span que avisa o usuário sobre a inserção invélida.
+				var infoElem = document.getElementById("alert1");
+				
+				// Limpa o campo de inserção.
+				infoElem.style.visibility = "hidden";
+				
 			    // E então fecha o lightbox e devolve o conteúdo à
 				// área de hopedagem.
 				host_lightbox.appendChild(_lightbox1_1);
