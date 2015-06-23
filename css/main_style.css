@@ -22,6 +22,11 @@
 	font-size: 10px;
 	font-family: verdana;
 }
+
+#select_column {
+    width: 250px;
+	margin-bottom: 14px;
+}
 	
 #tabela_de_produtos {
 	width: 600px;

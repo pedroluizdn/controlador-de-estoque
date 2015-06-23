@@ -115,6 +115,9 @@ window.onload = function(){
 	// Define a função que serve como gerenciamento da tabela.
 	function manageTable(){
 	    
+		// Esconde o conteúdo para evitar clicks recursivos nos botões.
+		document.getElementById("content").style.display = "none";
+		
 		// Pra começar, nós criamos o lightbox e 
 		// damos uma classe para o estilo.
 		var lightbox = document.getElementById("main_lightbox");
@@ -224,6 +227,9 @@ window.onload = function(){
 				host_lightbox.appendChild(_lightbox1_1);
 				lightbox.style.display = "none";
 				
+				// Volta a área de conteúdo, deixando-a à mostra.
+		        document.getElementById("content").style.display = "block";
+				
 			}
 			
 			// Define a função que cancelará o gerenciamento da tabela,
@@ -244,7 +250,10 @@ window.onload = function(){
 				// área de hopedagem.
 				host_lightbox.appendChild(_lightbox1_1);
 				lightbox.style.display = "none";
-			  
+			    
+				// Volta a área de conteúdo, deixando-a à mostra.
+		        document.getElementById("content").style.display = "block";
+				
 			}
 			
 			// Agora nós anexamos os manipuladores ao evento "click" de
@@ -289,6 +298,73 @@ window.onload = function(){
             // botões.
             _removeHandlers();
 			
+			// Retira a div id="_lightbox1", colocando-a na área de 
+			// hospedagem.
+			host_lightbox.appendChild(_lightbox1);
+			
+			// Insere o conteúdo da div com o id="_lightbox1_2" no lighbox.
+			var _lightbox1_2 = document.getElementById("_lightbox1_2");
+			lightbox.appendChild(_lightbox1_2);
+			
+			// Aqui nós criamos os elementos <option>, necessários para
+			// a escolha da coluna que o usuário vai remover.
+			var optElem;
+			for(var a=0; a < table_columns.length; a++){
+			    
+				optElem = document.createElement("option");
+				optElem.value = table_columns[a];
+				optElem.innerHTML = table_columns[a];
+				
+				// Insere o novo <option> no elemento <select>.
+				var sel_elem = document.getElementById("select_column");
+				sel_elem.appendChild(optElem);
+				
+			}
+			
+			// Define a função que será o manipulador para o evento "click"
+			// do botão "Remover Coluna". Ela possui a sutíl diferença no
+			// nome em relação à função "removeColumns", ou seja, sem o "s"
+			// no final.
+			function removeColumn(){
+			    
+				// Recupera o nome da coluna a ser removida.
+				var selectVal = sel_elem.value;
+				
+				// Confirma a remoção através de uma caixa de diálogo.
+				confirm("Você deseja realmente remover a coluna " + selectVal + "?" +
+				        "\n Lembre-se: Quando remover a coluna, " +
+						"automaticamente todos os valores daquela " +
+						"coluna serão apagados.");
+				
+				// #############################################
+				// #############################################
+				// #############################################
+				// #####Continuar a definição dessa função######
+				// #############################################
+				// #############################################
+				// #############################################
+				
+			}
+			
+			// Define a função que cancela a remoção da coluna.
+			function cancelRemove(){
+			    
+				
+				
+			}
+			
+			// Depois de definir as funções, nós anexamos elas como
+			// manipuladores para os eventos click dos botões.
+			var _buttons = _lightbox1_2.getElementsByTagName("input");
+			if(_buttons[0].addEventListener){
+			    _buttons[0].addEventListener("click", removeColumn, false);
+			    _buttons[1].addEventListener("click", cancelRemove, false);
+			}
+			else{
+			    _buttons[0].attachEvent("onclick", removeColumn);
+			    _buttons[1].attachEvent("onclick", cancelColumn);
+			}
+			
         }		
 		
 		// A terceira função será o manipulador para o evento "click"
@@ -311,6 +387,8 @@ window.onload = function(){
 		    // Nós desanexamos os manipuladores de evento dos antigos 
             // botões.
             _removeHandlers();
+			
+						
 			
 		}
 		
