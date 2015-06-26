@@ -10,10 +10,9 @@ function emptyElement(elem){
 	// Itera através dos filhos desse elemento, deletando cada um
 	// deles.
 	var child;
-	for(var a=0; a < len; a++){
+	for(var a=elem.firstElementChild; a != null; a=elem.firstElementChild){
 	    
-		child = elem.children[a];
-	    elem.removeChild(child);
+		elem.removeChild(a);
 		
 	}
 	
@@ -294,6 +293,15 @@ window.onload = function(){
 		// fornecendo as novas opções de gerenciamento da tabela.
 		function removeColumns(){
             
+			 
+			// Verifica se há colunas para retirar.
+			if(!table_columns.length){
+				    
+				alert("Não há colunas para retirar!!!");
+				return;
+					
+			}
+			
 			// Nós desanexamos os manipuladores de evento dos antigos 
             // botões.
             _removeHandlers();
@@ -306,6 +314,10 @@ window.onload = function(){
 			var _lightbox1_2 = document.getElementById("_lightbox1_2");
 			lightbox.appendChild(_lightbox1_2);
 			
+			// Esvazia o elemento
+		    var sel_elem = document.getElementById("select_column");
+			emptyElement(sel_elem);
+			
 			// Aqui nós criamos os elementos <option>, necessários para
 			// a escolha da coluna que o usuário vai remover.
 			var optElem;
@@ -316,7 +328,6 @@ window.onload = function(){
 				optElem.innerHTML = table_columns[a];
 				
 				// Insere o novo <option> no elemento <select>.
-				var sel_elem = document.getElementById("select_column");
 				sel_elem.appendChild(optElem);
 				
 			}
@@ -326,30 +337,46 @@ window.onload = function(){
 			// nome em relação à função "removeColumns", ou seja, sem o "s"
 			// no final.
 			function removeColumn(){
-			    
+				
 				// Recupera o nome da coluna a ser removida.
 				var selectVal = sel_elem.value;
 				
 				// Confirma a remoção através de uma caixa de diálogo.
-				confirm("Você deseja realmente remover a coluna " + selectVal + "?" +
-				        "\n Lembre-se: Quando remover a coluna, " +
-						"automaticamente todos os valores daquela " +
-						"coluna serão apagados.");
+				var remove = confirm("Você deseja realmente remover a coluna " + 
+				             selectVal + "?" +
+				             "\n Lembre-se: Quando remover a coluna, " +
+						     "automaticamente todos os valores daquela " +
+						     "coluna serão apagados.");
 				
-				// #############################################
-				// #############################################
-				// #############################################
-				// #####Continuar a definição dessa função######
-				// #############################################
-				// #############################################
-				// #############################################
+				// Caso o usuário não confirme a remoção, apenas retorna a 
+				// função.
+				if(!remove){
+				    return;
+				}
+				
+				// Remove os manipuladores de evento.
+				removeHandlers();
+				
+				// Remove a coluna do array de colunas. Em seguida 
+				// atualiza a tabela.
+				table_columns.splice(sel_elem.selectedIndex,1);
+				table_products.splice(sel_elem.selectedIndex,1);
+				generateTable();
+				
+				// Fecha o lightbox.
+			    host_lightbox.appendChild(_lightbox1_2);
+				lightbox.style.display = "none";
+				
+				// Faz o conteúdo ficar visível.
+				document.getElementById("content").style.display = "block";
 				
 			}
 			
 			// Define a função que cancela a remoção da coluna.
 			function cancelRemove(){
 			    
-				
+				// Remove os manipuladores de evento.
+				removeHandlers();
 				
 			}
 			
@@ -363,6 +390,19 @@ window.onload = function(){
 			else{
 			    _buttons[0].attachEvent("onclick", removeColumn);
 			    _buttons[1].attachEvent("onclick", cancelColumn);
+			}
+			
+			function removeHandlers(){
+			    
+				if(_buttons[0].removeEventListener){
+			        _buttons[0].removeEventListener("click", removeColumn, false);
+			        _buttons[1].removeEventListener("click", cancelRemove, false);
+			    }
+			    else{
+			        _buttons[0].detachEvent("onclick", removeColumn);
+			        _buttons[1].detachEvent("onclick", cancelColumn);
+			    }
+				
 			}
 			
         }		
