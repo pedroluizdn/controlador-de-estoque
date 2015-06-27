@@ -36,7 +36,10 @@ window.onload = function(){
 	if(!table_products){
 	    var table_products = [];
 	}
-
+    
+	// Cria a tabela com os dados armazenados no localStorage.
+	generateTable();
+	
 	// Essa função cria a tabela com os dados que o programa já
 	// possui. Tanto dos produtos, como os dados do formato da tabela.
 	function generateTable(){
@@ -113,7 +116,7 @@ window.onload = function(){
 	
 	// Define a função que serve como gerenciamento da tabela.
 	function manageTable(){
-	    
+		
 		// Esconde o conteúdo para evitar clicks recursivos nos botões.
 		document.getElementById("content").style.display = "none";
 		
@@ -378,6 +381,13 @@ window.onload = function(){
 				// Remove os manipuladores de evento.
 				removeHandlers();
 				
+				// Fecha o lightbox.
+			    host_lightbox.appendChild(_lightbox1_2);
+				lightbox.style.display = "none";
+				
+				// Faz o conteúdo ficar visível.
+				document.getElementById("content").style.display = "block";
+				
 			}
 			
 			// Depois de definir as funções, nós anexamos elas como
@@ -415,6 +425,10 @@ window.onload = function(){
 			// Nós desanexamos os manipuladores de evento dos antigos 
             // botões.
             _removeHandlers();
+			
+			// Muda o conteúdo do lightbox.
+			host_lightbox.appendChild(_lightbox1);
+			lightbox.appendChild(_lightbox1_3);
 			
 		}
 		
@@ -482,11 +496,13 @@ window.onload = function(){
 	    manageTableButton.attachEvent("onclick", manageTable);
 	}
 
-    // Quando o programa é finalizado, salva os dados
-	// fornecidos ao programa durante o uso.
-	window.beforeunload = function(){
+    // Usa essa função como manipulador para o evento click do elemento com
+	// o id "save_table". Ela serve para salvar as alterações feitas na tabela.
+	var save_button = document.getElementById("save_table");
+	save_button.onclick = function(){
 	    window.localStorage.table_columns = JSON.stringify(table_columns);
-	    window.localStorage.table_products = JSON.stringify(table_columns);
+	    window.localStorage.table_products = JSON.stringify(table_products);
 	}
+	
 	
 }
