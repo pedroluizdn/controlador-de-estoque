@@ -610,6 +610,7 @@ window.onload = function(){
 		// Cria os elementos <input> que recuperarão as informações inseridas.
 		var div, h3, input;
 		var _lightbox2_inputs = doc.getElementById("_lightbox2_inputs");
+		emptyElement(_lightbox2_inputs);
 		for(var a=0; a < table_columns.length; a++){
 		    
 			var col = table_columns[a];
@@ -636,9 +637,72 @@ window.onload = function(){
 		// "Adicionar Produto" do lightbox.
 		function confirmAdd(){
 		    
-			// ###############################
-			// CONTINUAR A DEFINIÇÃO DESSA FUNÇÃO !!!
-			// ###############################
+			var doc = document;
+			
+			// Remove os manipuladores de eventos.
+			removeHandlers();
+			
+			// Recupera os valores de cada <input>.
+			var col, colVal, product = [];
+			for(var a=0; a < table_columns.length; a++){
+			    
+				col = table_columns[a];
+				colVal = doc.getElementsByName(col)[0].value;
+				product.push(colVal);
+				
+			}
+			
+			// Depois de recolhido, insere esse array de valores do produto
+			// no array "table_products".
+			table_products.push(product);
+			generateTable();
+			
+			// Devolve o conteúdo à área de hospedagem, esconde o lightbox
+			// e torna o corpo da página visível novamente.
+			var host_lightbox = doc.getElementById("host_lightbox");
+		    host_lightbox.appendChild(_lightbox2);
+			lightbox.style.display = "none";
+			doc.getElementById("content").style.display = "block";
+			
+		}
+		
+		function cancelAdd(){
+		    
+			// Remove os manipuladores de eventos.
+			removeHandlers();
+			
+			// Devolve o conteúdo à área de hospedagem, esconde o lightbox
+			// e torna o corpo da página visível novamente.
+			var host_lightbox = doc.getElementById("host_lightbox");
+		    host_lightbox.appendChild(_lightbox2);
+			lightbox.style.display = "none";
+			doc.getElementById("content").style.display = "block";
+			
+		}
+		
+		// Anexa os manipuladores de eventos, aos botões: "Adicionar Produto"
+		// e "Cancelar Adição".
+		var button_confirmAdd = doc.getElementById("confirm_add"),
+		    button_cancelAdd = doc.getElementById("cancel_add");
+		if(button_confirmAdd.addEventListener){
+		    button_confirmAdd.addEventListener("click", confirmAdd, false);
+			button_cancelAdd.addEventListener("click", cancelAdd, false);
+		}
+		else{
+		    button_confirmAdd.attachEvent("onclick", confirmAdd);
+			button_cancelAdd.attachEvent("onclick", cancelAdd);
+		}
+		
+		function removeHandlers(){
+		    
+			if(button_confirmAdd.removeEventListener){
+		        button_confirmAdd.removeEventListener("click", confirmAdd, false);
+			    button_cancelAdd.removeEventListener("click", cancelAdd, false);
+		    }
+		    else{
+		        button_confirmAdd.detachEvent("onclick", confirmAdd);
+		    	button_cancelAdd.detachEvent("onclick", cancelAdd);
+		    }
 			
 		}
 		
