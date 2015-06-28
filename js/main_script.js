@@ -366,6 +366,13 @@ window.onload = function(){
 				for(var a=0; a < table_products.length; a++){
 				    table_products[a].splice(sel_elem.selectedIndex,1);
 				}
+				
+				if(table_columns.length === 0){
+				    
+					table_products = [];
+					
+				}
+				
 				generateTable();
 				
 				// Fecha o lightbox.
@@ -837,6 +844,49 @@ window.onload = function(){
 	}
 	else{
 	    buttonRemoveProduct.attachEvent("onclick", removeProduct);
+	}
+	
+	// Define a função que serve como manipulador para o evento "click"
+	// do botão "Editar Produto".
+	function editProduct(){
+	    
+		if(table_products.length === 0){
+		    
+			alert("Não há produtos para remover!!!");
+			return;
+			
+		}
+		
+	    var doc = document;
+		
+		// Mostra o lightbox com o contéudo necessário.
+		var lightbox = doc.getElementById("main_lightbox"),
+		    _lightbox4 = doc.getElementById("_lightbox4");
+		lightbox.style.display = "block";
+		lightbox.appendChild(_lightbox4);
+		
+		// Cria a lista de elementos <option> para a edição de produtos.
+		var sel_elem = doc.getElementById("product_for_edit");
+		var optElem, product;
+		emptyElement(sel_elem);
+		for(var a=0; a < table_products.length; a++){
+		    
+			product = table_products[a].join(" / ");
+			optElem = doc.createElement("option");
+			optElem.innerHTML = product;
+			sel_elem.appendChild(optElem);
+			
+		}
+	
+	}
+	
+	// Anexa o manipulador ao evento "click" do botão "Editar Produto".
+	var buttonEdit = document.getElementById("edit_product");
+	if(buttonEdit.addEventListener){
+	    buttonEdit.addEventListener("click", editProduct, false);
+	}
+	else{
+	    buttonEdit.attachEvent("onclick", editProduct);
 	}
 	
     // Usa essa função como manipulador para o evento click do elemento com

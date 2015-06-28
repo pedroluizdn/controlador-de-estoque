@@ -40,6 +40,11 @@ input[type=button], button {
 	margin-bottom: 14px;
 }
 
+#product_for_edit {
+    width: 600px;
+	margin-bottom: 14px;
+}
+
 #tabela_de_produtos {
 	width: 600px;
 }
