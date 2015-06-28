@@ -363,7 +363,9 @@ window.onload = function(){
 				// Remove a coluna do array de colunas. Em seguida 
 				// atualiza a tabela.
 				table_columns.splice(sel_elem.selectedIndex,1);
-				table_products.splice(sel_elem.selectedIndex,1);
+				for(var a=0; a < table_products.length; a++){
+				    table_products[a].splice(sel_elem.selectedIndex,1);
+				}
 				generateTable();
 				
 				// Fecha o lightbox.
@@ -596,6 +598,13 @@ window.onload = function(){
 	// "Adicionar Produto". 
 	function addProduct(){
 	    
+		if(table_columns.length === 0){
+		    
+			alert("Primeiro crie colunas na tabela!!!");
+			return;
+			
+		}
+		
 		var doc = document;
 		
 		// Esconde o conteúdo para evitar recursões.
@@ -717,10 +726,123 @@ window.onload = function(){
 	else{
 	    buttonAddProduct.attachEvent("onclick", addProduct);
 	}
+	
+	// Define a função que serve como manipulador para o evento "click"
+	// do botão "Remover Produto".
+	function removeProduct(){
+	    
+		if(table_products.length === 0){
+		    
+			alert("Não há produtos para remover!!!");
+			return;
+			
+		}
+		
+		var doc = document;
+		
+		// Esconde o conteúdo para evitar recursões.
+		doc.getElementById("content").style.display = "none";
+		
+		// Cria o lightbox.
+		var lightbox = doc.getElementById("main_lightbox"),
+		    _lightbox3 = doc.getElementById("_lightbox3");
+		lightbox.style.display = "block";
+		lightbox.appendChild(_lightbox3);
+		
+		// Cria a lista de elementos <option> para a remoção de produtos.
+		var sel_elem = doc.getElementById("select_product");
+		var optElem, product;
+		emptyElement(sel_elem);
+		for(var a=0; a < table_products.length; a++){
+		    
+			product = table_products[a].join(" / ");
+			optElem = doc.createElement("option");
+			optElem.innerHTML = product;
+			sel_elem.appendChild(optElem);
+			
+		}
+		
+		function confirmRemoval(){
+		    
+			// Pede para o usuário confirmar a remoção.
+			var remove = confirm("Você quer realmente remover esse produto?");
+			
+			if(!remove){
+			    return;
+			}
+			
+			// Remove os manipuladores de evento.
+			removeHandlers();
+			
+			var selElem = sel_elem;
+			var doc = document;
+			
+			// Remove o produto ao índice correspondente no array "table_products".
+			table_products.splice(selElem.selectedIndex, 1);
+			generateTable();
+			
+			// Devolve o conteúdo à área de hospedagem, esconde o lightbox
+			// e torna o corpo da página visível novamente.
+			var host_lightbox = doc.getElementById("host_lightbox");
+		    host_lightbox.appendChild(_lightbox3);
+			lightbox.style.display = "none";
+			doc.getElementById("content").style.display = "block";
+			
+		}
+		
+		function cancelRemoval(){
+		    
+			// Remove os manipuladores de evento.
+			removeHandlers();
+			
+			// Devolve o conteúdo à área de hospedagem, esconde o lightbox
+			// e torna o corpo da página visível novamente.
+			var host_lightbox = doc.getElementById("host_lightbox");
+		    host_lightbox.appendChild(_lightbox3);
+			lightbox.style.display = "none";
+			doc.getElementById("content").style.display = "block";
+			
+		}
+		// Anexa os manipuladores ao evento "click" dos botões 
+		// "Remover Produto" e "Cancelar Remoção".
+		var buttons = _lightbox3.getElementsByTagName("input")	
+		if(buttons[0].addEventListener){
+		    buttons[0].addEventListener("click", confirmRemoval, false);
+		    buttons[1].addEventListener("click", cancelRemoval, false);
+		}
+		else{
+		    buttons[0].attachEvent("onclick", confirmRemoval);
+		    buttons[1].attachEvent("onclick", cancelRemoval);
+		}
+		function removeHandlers(){
+		    
+			if(buttons[0].removeEventListener){
+		        buttons[0].removeEventListener("click", confirmRemoval, false);
+		        buttons[1].removeEventListener("click", cancelRemoval, false);
+		    }
+		    else{
+		        buttons[0].detachEvent("onclick", confirmRemoval);
+		        buttons[1].detachEvent("onclick", cancelRemoval);
+		    }
+			
+		}
+		
+	}
+	
+	// Agora anexa a função como manipulador do evento "click" do botão 
+	// "Remover Produto".
+	var buttonRemoveProduct = document.getElementById("remove_product");
+	if(buttonRemoveProduct.addEventListener){
+	    buttonRemoveProduct.addEventListener("click", removeProduct, false);
+	}
+	else{
+	    buttonRemoveProduct.attachEvent("onclick", removeProduct);
+	}
+	
     // Usa essa função como manipulador para o evento click do elemento com
 	// o id "save_table". Ela serve para salvar as alterações feitas na tabela.
 	var save_button = document.getElementById("save_table");
-	save_button.onclick = function(){
+	save_button.onclick = function(){ 
 	    window.localStorage.table_columns = JSON.stringify(table_columns);
 	    window.localStorage.table_products = JSON.stringify(table_products);
 	}
