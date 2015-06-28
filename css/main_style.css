@@ -1,3 +1,6 @@
+.inputs_add {
+    margin: 0 0 20px 0;
+}
 
 .lightbox {
 	position: absolute;
@@ -23,11 +26,19 @@
 	font-family: verdana;
 }
 
+input[type=button], button {
+    margin: 4px 10px 4px 0;;
+}
+
 #select_column {
     width: 250px;
 	margin-bottom: 14px;
 }
-	
+
+#select_column2{
+    width: 250px;
+}
+
 #tabela_de_produtos {
 	width: 600px;
 }
@@ -50,8 +61,4 @@
 
 #modifytable {
     margin: 10px 0;
-}
-
-input[type=button] {
-    margin: 4px 0;
 }

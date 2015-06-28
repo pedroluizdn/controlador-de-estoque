@@ -422,6 +422,15 @@ window.onload = function(){
 		// fornecendo as novas opções de gerenciamento da tabela.
 		function editColumns(){
 		    
+			var doc = document;
+			
+			// Se não houver colunas para a edição, avisa o usuário e
+			// não faz mais nada.
+			if(table_columns.length === 0){
+			    alert("Não há colunas para editar!!!");
+				return;
+			}
+			
 			// Nós desanexamos os manipuladores de evento dos antigos 
             // botões.
             _removeHandlers();
@@ -429,6 +438,89 @@ window.onload = function(){
 			// Muda o conteúdo do lightbox.
 			host_lightbox.appendChild(_lightbox1);
 			lightbox.appendChild(_lightbox1_3);
+			
+			// Esvazia o elemento select e preenche com os novos <option>s
+			// que representam as colunas da tabela.
+			var sel_elem = doc.getElementById("select_column2");
+			emptyElement(sel_elem);
+			var tab_col = table_columns,
+			    opt,
+				optElem;
+			for(var a=0; a < tab_col.length; a++){
+			    
+				optElem = doc.createElement("option");
+				opt = tab_col[a];
+				optElem.innerHTML = opt;
+				sel_elem.appendChild(optElem);
+				
+			}
+			
+			// Define uma função como manipulador do evento "click" do
+			// botão "Renomear".
+			function renameColumn(){
+			    
+				var tab_col = table_columns;
+				var doc = document;
+				
+				// Pede para o usuário confirmar.
+				var rename = confirm("Você quer realmente renomear essa coluna?");
+				if(!rename){
+				    return;
+				}
+				
+				// Remove os manipuladores de evento.
+				_removeHandlers2();
+				
+				// Renomeia o índice específico no array e atualiza a tabela.
+                var newValue = doc.getElementById("column_name");
+				tab_col[sel_elem.selectedIndex] = newValue.value;
+				newValue.value = "";
+				generateTable();
+				
+				// Devolve o conteúdo à área de hospedagem, esconde o lightbox
+				// e torna o corpo da página visível novamente.
+				host_lightbox.appendChild(_lightbox1_3);
+				lightbox.style.display = "none";
+				doc.getElementById("content").style.display = "block";
+				
+				
+			}
+			
+			function cancelEdit(){
+			
+			    // Apenas esvazia o input, devolve o conteúdo à área de 
+				// hospedagem, esconde o lightbox e torna o corpo da 
+				// página visível novamente.  
+			    doc.getElementById("column_name").value = "";
+				host_lightbox.appendChild(_lightbox1_3);
+				lightbox.style.display = "none";
+				doc.getElementById("content").style.display = "block";
+				
+			}
+			
+			// Anexa os manipuladores de evento.
+			var buttonsForEdit = _lightbox1_3.getElementsByTagName("input");
+			if(buttonsForEdit[1].addEventListener){
+			    buttonsForEdit[1].addEventListener("click", renameColumn, false);
+				buttonsForEdit[2].addEventListener("click", cancelEdit, false);
+			}
+			else{
+			    buttonsForEdit[1].attachEvent("onclick", renameColumn);
+			    buttonsForEdit[2].attachEvent("onclick", cancelEdit);
+			}
+			
+			function _removeHandlers2(){
+			    
+				if(buttonsForEdit[1].removeEventListener){
+			        buttonsForEdit[1].removeEventListener("click", renameColumn, false);
+				    buttonsForEdit[2].removeEventListener("click", cancelEdit, false);
+			    }
+			    else{
+			        buttonsForEdit[1].detachEvent("onclick", renameColumn);
+			        buttonsForEdit[2].detachEvent("onclick", cancelEdit);
+			    }
+				
+			}
 			
 		}
 		
@@ -442,7 +534,11 @@ window.onload = function(){
             // botões.
             _removeHandlers();
 			
-						
+			// Devolve o conteúdo à área de hospedagem, esconde o lightbox
+			// e torna o corpo da página visível novamente.
+			host_lightbox.appendChild(_lightbox1);
+			lightbox.style.display = "none";
+			document.getElementById("content").style.display = "block";		
 			
 		}
 		
@@ -495,7 +591,68 @@ window.onload = function(){
 	else{
 	    manageTableButton.attachEvent("onclick", manageTable);
 	}
-
+    
+	// Define uma função como manipulador para o evento "click" do botão
+	// "Adicionar Produto". 
+	function addProduct(){
+	    
+		var doc = document;
+		
+		// Esconde o conteúdo para evitar recursões.
+		doc.getElementById("content").style.display = "none";
+		
+		// Cria o lightbox.
+		var lightbox = doc.getElementById("main_lightbox"),
+		    _lightbox2 = doc.getElementById("_lightbox2");
+		lightbox.style.display = "block";
+		lightbox.appendChild(_lightbox2);
+		
+		// Cria os elementos <input> que recuperarão as informações inseridas.
+		var div, h3, input;
+		var _lightbox2_inputs = doc.getElementById("_lightbox2_inputs");
+		for(var a=0; a < table_columns.length; a++){
+		    
+			var col = table_columns[a];
+			
+			// Cria os elementos...
+			div = doc.createElement("div");
+			h3 = doc.createElement("h3");
+			input = doc.createElement("input");
+			
+			// ... define os atributos e valores de cada elemento...
+			div.classList.add("inputs_add");
+			input.type = "text";
+			input.name = col;
+			h3.innerHTML = col + ":";
+			
+			// Insere os elementos no HTML.
+			div.appendChild(h3);
+			div.appendChild(input);
+			_lightbox2_inputs.appendChild(div);
+			
+		}
+		
+		// Essa função serve como manipulador do evento "click" para o botão
+		// "Adicionar Produto" do lightbox.
+		function confirmAdd(){
+		    
+			// ###############################
+			// CONTINUAR A DEFINIÇÃO DESSA FUNÇÃO !!!
+			// ###############################
+			
+		}
+		
+	}
+	
+	// Agora anexa a função como manipulador do evento "click" do botão 
+	// "Adicionar Produto".
+	var buttonAddProduct = document.getElementById("add_product");
+	if(buttonAddProduct.addEventListener){
+	    buttonAddProduct.addEventListener("click", addProduct, false);
+	}
+	else{
+	    buttonAddProduct.attachEvent("onclick", addProduct);
+	}
     // Usa essa função como manipulador para o evento click do elemento com
 	// o id "save_table". Ela serve para salvar as alterações feitas na tabela.
 	var save_button = document.getElementById("save_table");

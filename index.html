@@ -8,7 +8,6 @@
 </head>
 <body>   
   <div id="content">
-    <div id="main_lightbox" class="lightbox" style="display: none;"></div>
     <button id="modifytable" type="button">Gerenciar formato da tabela</button><br />
     <input id="add_product" type="button" value="Adicionar produto" />
     <input id="remove_product" type="button" value="Remover produto" />
@@ -29,6 +28,10 @@
 			</tbody>
 	    </table>
     </div>
+  </div>
+  <div id="main_lightbox" class="lightbox" style="display: none;">
+	  <!-- Esse é o lightbox que servirá como uma "ferramenta"
+      de consulta para as informações necessárias -->
   </div>
   <!-- A div abaixo é criada para que nós possamos "hospedar" os pedaços
   de HTML necessários na hora de desenvolver os "lightbox"s  -->
@@ -62,12 +65,22 @@
 		  <input type="button" value="Cancelar Remoção" />
 	  </div>
 	  <div id="_lightbox1_3">
-	      <h1>Escolha qual das colunas você deseja alterar o nome:</h1>
-		  <select>
+	      <h2>Escolha qual das colunas você deseja alterar o nome:</h2>
+		  <select id="select_column2">
 		      <!-- Os elementos <option>s serão criados dinamicamente -->
 		  </select><br />
-		  <h1>Qual o novo nome da coluna?</h1>
-		  <input type="text" />
+		  <h2>Qual o novo nome da coluna?</h2>
+		  <input id="column_name" type="text" />
+		  <input type="button" value="Renomear" />
+		  <input type="button" value="Cancelar Edição" />
+	  </div>
+	  <div id="_lightbox2">
+	      <h1>Insira as informações necessárias:</h1>
+		  <div id="_lightbox2_inputs">
+		      <!-- Os <input>s são dinamicamente criados pelo JavaScript -->
+		  </div>
+		  <input id="confirm_add" type="button" value="Adicionar Produto" />
+		  <input id="cancel_add" type="button" value="Cancelar Adição" />
 	  </div>
   </div>
 </body>
