@@ -859,6 +859,8 @@ window.onload = function(){
 		
 	    var doc = document;
 		
+		doc.getElementById("content").style.display = "none";
+		
 		// Mostra o lightbox com o contéudo necessário.
 		var lightbox = doc.getElementById("main_lightbox"),
 		    _lightbox4 = doc.getElementById("_lightbox4");
@@ -877,7 +879,139 @@ window.onload = function(){
 			sel_elem.appendChild(optElem);
 			
 		}
-	
+	     
+		// Essa função serve como manipulador para o evento "click" do botão
+        // "Editar Produto".
+		function editProduct(){
+		    
+			var doc = document;
+			
+			// Troca o conteúdo do lightbox.
+			var _lightbox4_1 = doc.getElementById("_lightbox4_1");
+			host_lightbox.appendChild(_lightbox4);
+			lightbox.appendChild(_lightbox4_1);
+			
+			// Recupera o produto escolhido para edição dos dados.
+			var tp = table_products;
+			var productData = tp[sel_elem.selectedIndex];
+			
+			// Cria os elementos <input> já com os atuais dados dos produtos.
+		    var div, h3, input;
+		    var _lightbox4_1_inputs = doc.getElementById("_lightbox4_1_inputs");
+		    emptyElement(_lightbox4_1_inputs);
+		    for(var a=0; a < table_columns.length; a++){
+		    
+			    var col = table_columns[a];
+			
+			    // Cria os elementos...
+			    div = doc.createElement("div");
+			    h3 = doc.createElement("h3");
+			    input = doc.createElement("input");
+			
+			    // ... define os atributos e valores de cada elemento...
+			    div.classList.add("inputs_add");
+			    input.type = "text";
+			    input.name = col;
+				input.value = productData[a];
+				
+			    h3.innerHTML = col + ":";
+			
+			    // Insere os elementos no HTML.
+			    div.appendChild(h3);
+			    div.appendChild(input);
+			    _lightbox4_1_inputs.appendChild(div);
+			
+		    }
+			
+			function confirmEdit(){
+			    
+				// Pede a confirmação das alterações.
+				var edit = confirm("Você quer realmente fazer essas alterações?");
+				
+				if(!edit){
+				    return;
+				}
+				
+				// Retira os manipuladores de eventos para evitar recursão.
+				removeHandlers();
+				
+				var inputs = _lightbox4_1_inputs.getElementsByTagName("input");
+				
+				// Recupera os valores de cada input.
+				var product = [];
+				for(var a=0; a < productData.length; a++){
+				    
+					product.push(inputs[a].value);
+					
+				}
+				
+				// Armazena o novo conjunto de dados no array "table_products".
+				table_products[sel_elem.selectedIndex] = product;
+				
+				// Cria a tabela novamente.
+				generateTable();
+				
+				// Devolve o conteúdo à área de hospedagem, esconde o lightbox
+			    // e torna o corpo da página visível novamente.
+			    var host_lightbox = doc.getElementById("host_lightbox");
+		        host_lightbox.appendChild(_lightbox4_1);
+			    lightbox.style.display = "none";
+			    doc.getElementById("content").style.display = "block";
+				
+			}
+			
+			function cancelEdit(){
+			    
+				alert("cancel");
+				
+			}
+			
+			// Anexa os manipuladores ao evento "click" dos botões
+			// "Confirmar Edição" e "Cancelar Edição".
+			var buttonForConfirm = doc.getElementById("confirm_edit"),
+			    buttonForCancel = doc.getElementById("cancel_edit");
+			if(buttonForConfirm.addEventListener){
+			    buttonForConfirm.addEventListener("click", confirmEdit, false);
+			    buttonForCancel.addEventListener("click", cancelEdit, false);
+			}
+			else{
+			    buttonForConfirm.attachEvent("onclick", confirmEdit);
+			    buttonForCancel.attachEvent("onclick", cancelEdit);
+			}
+			
+			function removeHandlers(){
+			    
+				if(buttonForConfirm.removeEventListener){
+			        buttonForConfirm.removeEventListener("click", confirmEdit, false);
+			        buttonForCancel.removeEventListener("click", cancelEdit, false);
+			    }
+			    else{
+			        buttonForConfirm.detachEvent("onclick", confirmEdit);
+			        buttonForCancel.detachEvent("onclick", cancelEdit);
+			    }
+				
+			}
+			
+		}
+		
+		// Essa função serve como manipulador para o evento "click" do botão
+		// "Cancelar Edição".
+		function cancelEdit(){
+		
+		}
+		
+		// Anexa os manipuladores ao evento "click" dos botões "Editar Produto"
+		// e "Cancelar Edição".
+		var buttons = _lightbox4.getElementsByTagName("input");
+		if(buttons[0].addEventListener){
+		    buttons[0].addEventListener("click", editProduct, false);
+		    buttons[1].addEventListener("click", cancelEdit, false)
+		}
+		else{
+		    buttons[0].attachEvent("onclick", editProduct);
+		    buttons[1].attachEvent("onclick", cancelEdit);
+		}
+		
 	}
 	
 	// Anexa o manipulador ao evento "click" do botão "Editar Produto".
